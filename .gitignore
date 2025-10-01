@@ -1,0 +1,43 @@
+##### 설정 방법 #####
+# **/중간폴더/
+# **/중간폴더/하위폴더/
+# /폴더명/*.log
+##################
+
+### IAR ###
+# Compiled binaries
+*.o
+*.elf
+*.out
+*.obj
+
+# Trash
+*.bak
+thumbs.db
+
+# IAR project "Debug" directory
+Debug/
+
+# IAR project settings directory
+settings/
+
+# IAR project "BrowseInfo" directory
+BrowseInfo/
+
+# IAR project settings directory
+**/Obj/
+**/List/
+
+# IAR backup files
+Backup*
+
+# IAR .dep files
+*.dep
+*.ninja_deps
+
+# IAR .log files
+*.log
+*.ninja_log
+
+# IAR .fwiar_v8_build_cache files
+*.fwiar_v8_build_cache
