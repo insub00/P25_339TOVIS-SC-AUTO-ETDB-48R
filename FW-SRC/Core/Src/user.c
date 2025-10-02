@@ -62,6 +62,7 @@ GPIO_PinState GPI_ReadPin(GPI_INFO name)
 void board_init()
 {
   printf(ANSI_GREEN"Main Application Start => [%s][%s]\r\n"ANSI_RESET, __DATE__,__TIME__);
+  printf(ANSI_GREEN"PROJECT : TOVIS 48R\r\n"ANSI_RESET);
   printf("SystemCoreClock = %d\r\n", SystemCoreClock);
   
   M95Pxx_Init(); //내부 eeprom
@@ -100,6 +101,8 @@ void power_seq(uint8_t onoff)
    
     HAL_Delay(100);
     led_driver_ctrl();
+    
+//    t_draw.chg_pin_event = 1; //TEST용 
 
 #ifdef WING_BOARD_TEST    
     GPO_WritePin(ENOTP, HIGH);
@@ -193,6 +196,17 @@ void sw_func(void)
 #endif      
     }
   }
+  
+  if (GPI_ReadPin(TCH_EXT) == GPIO_PIN_RESET)
+  {
+    HAL_Delay(100);
+    if (GPI_ReadPin(TCH_EXT) == GPIO_PIN_RESET)
+    {
+      printf("tch key \r\n");
+//      cooridnate_read();   
+      g_mxt_init_finish = 1;
+    }
+  }
 }
 
 
@@ -220,14 +234,15 @@ void input_func(void)
   
 
  
-  // Touch Drawing 검사
-//  if(nvt_infor.coordinate_sense)
-//  {
-//    request_cooridnate_interrupt();
-//    nvt_infor.coordinate_sense = 0;
-//  }
+  /* Touch Drawing 검사 */
+  if (GPI_ReadPin(TCH_INT) == GPIO_PIN_RESET && g_mxt_init_finish)
+  {
+    cooridnate_read();
+    HAL_Delay(5);
+  }
+
   
-  sw_func(); //배포 버젼으로 컴파일시 주석 처리
+//  sw_func(); //배포 버젼으로 컴파일시 주석 처리
 }
 
 void output_func(void)

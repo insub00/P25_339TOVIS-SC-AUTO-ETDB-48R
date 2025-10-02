@@ -497,9 +497,20 @@ enum touch_request_type{
 #define T_OPEN_DATA   0x05
 #define T_NOISE_DATA  0x06  // = Jitter
 
+
+typedef	struct
+{
+  uint8_t drawing_test_on;
+  uint8_t chg_pin_event;
+}mxt_draw;
+
+extern mxt_draw t_draw;
+extern uint8_t g_mxt_init_finish;
+
 extern void touch_request_packet(uint8_t type, uint8_t s_cmd, uint32_t len, uint8_t* data);
 extern void touch_ver_check_packet(uint8_t *pInBuff);
 extern void touch_inspection_packet(uint8_t *pInBuff);
+extern void cooridnate_read(void);
 
 
 #endif

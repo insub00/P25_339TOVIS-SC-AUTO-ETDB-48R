@@ -140,7 +140,7 @@ void fw_version(uint8_t *pInBuf)
 void analyze_packet(uint8_t *buf)
 {
   uint8_t TxBuf[100] = {0};
-  printf(ANSI_GREEN"MC[0x%x]SC[0x%x]\r\n"ANSI_RESET, buf[1], buf[2]);
+  printf(ANSI_GREEN"MC[0x%02X]SC[0x%02X]\r\n"ANSI_RESET, buf[1], buf[2]);
   
   switch(buf[PROTOCOL_MAIN_CMD])
   {
@@ -286,7 +286,7 @@ void analyze_packet(uint8_t *buf)
 #endif
       
       
-/* NOVATEK TOUCH */      
+/* MICRO CHIP TOUCH */      
     case S_TOUCH_FW_VERSION_PACEKT : 
       touch_ver_check_packet(buf);   
       break;
@@ -308,23 +308,26 @@ void analyze_packet(uint8_t *buf)
       
     case S_TOUCH_FW_UPDATE :  
       break;
-   
+
+      
+/* DDI */      
+    case S_DDI_WRITE_PACKET :   /* 0xCA */
+      ddi_init_code_write_packet(buf);
+      break;      
       
 /* VCOM */    
-    case S_VCOM_PACKET: /* 0x09 */
+    case S_VCOM_PACKET:         /* 0x09 */
       //VCOM WRITE & READ 
       pvcom_tune(buf);         
       break;   
       
-/* LCM EEPROM */      
-    case S_TOVIS_EEPROM_PACKET:	/* 0xF3 */
+/* LCM EEPROM (PGM TEST창 오른쪽 검사박스로도 동작함"48R R/W")*/      
+    case S_TOVIS_EEPROM_PACKET: /* 0xF3 */
       tovis_eeprom_packet(buf);		
       break;
 //    case S_EEPROM_SAVE_PACKET : /* 0xF0 */
 //      eeprom_save_packet(buf);    
 //      break;      
-      
-      
       
       
 /* WING EEPROM */      
@@ -335,20 +338,20 @@ void analyze_packet(uint8_t *buf)
 
 /* HIMAX FLASH */      
 //himax touch 설정으로 packet time out 방지용으로 적용.      
-    case S_DRIVER_PASSWORD_DATA: //0xE2
+    case S_DRIVER_PASSWORD_DATA: /* 0xE2 */
       TxBuf[0] = buf[PROTOCOL_DATA];
       TxBuf[1] = buf[PROTOCOL_DATA+1];
       TxBuf[2] = buf[PROTOCOL_DATA+2];
       UARTxSendData(buf[PROTOCOL_MAIN_CMD], buf[PROTOCOL_SUB_CMD], TxBuf, 3);
       break;
-    case S_READ_FLASH_DATA: //0xE3
+    case S_READ_FLASH_DATA:     /* 0xE3 */
       TxBuf[0] = 1;
       UARTxSendData(buf[PROTOCOL_MAIN_CMD], buf[PROTOCOL_SUB_CMD], TxBuf, 1);
       break;
 
       
 /* WING VER */       
-    case S_WING_INFO: /* 0xFF */
+    case S_WING_INFO:           /* 0xFF */
       fw_version(buf);       
       break; 
     }

@@ -14,10 +14,10 @@ void pvcom_tune(uint8_t *pInBuf)
   {
     if ((rwf & 0x01) == 0)      /* WRITE */
     {
-      set_vcom_data_to_eep(setVcom);
-      get_vcom_data_to_eep(&getVcom);
-      TxData[0] = setVcom >> 8;
-      TxData[1] = setVcom;
+//      set_vcom_data_to_eep(setVcom);
+//      get_vcom_data_to_eep(&getVcom);
+//      TxData[0] = setVcom >> 8;
+//      TxData[1] = setVcom;
     }
     else                        /* READ */
     {

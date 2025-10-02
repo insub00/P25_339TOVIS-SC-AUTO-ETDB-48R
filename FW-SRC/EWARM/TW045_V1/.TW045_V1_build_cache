@@ -3,6 +3,12 @@
     <Tool>
         <Name>linker</Name>
         <Parent>
+            <Path>D:\Z-TEC\work\Git\P25_339TOVIS-SC-AUTO-ETDB-48R\FW-SRC\EWARM\TW045_V1\Exe\TW045_V1.out</Path>
+            <Output>
+                <Path>D:\Z-TEC\work\Git\P25_339TOVIS-SC-AUTO-ETDB-48R\FW-SRC\EWARM\TW045_V1\List\TW045_V1.map</Path>
+            </Output>
+        </Parent>
+        <Parent>
             <Path>D:\Z-TEC\work\1. AUTO\2. TOVIS\48R_Circular_Dispay\FW\ETDB\250929_TOUCH\EWARM\TW045_V1\Exe\TW045_V1.out</Path>
             <Output>
                 <Path>D:\Z-TEC\work\1. AUTO\2. TOVIS\48R_Circular_Dispay\FW\ETDB\250929_TOUCH\EWARM\TW045_V1\List\TW045_V1.map</Path>

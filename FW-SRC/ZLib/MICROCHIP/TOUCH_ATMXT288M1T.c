@@ -45,6 +45,8 @@ uint8_t touch_buff[1024] = {0};
 uint32_t g_fw_raw_data_start_addr = 0;
 uint32_t g_cfg_raw_data_start_addr = 0;
 uint8_t *dbg_data;
+uint8_t g_mxt_init_finish;
+mxt_draw t_draw;
 
 uint8_t mxt_bootloader_write_i2c(uint8_t *val, uint16_t count)
 {  
@@ -2450,8 +2452,25 @@ void touch_test()
     //get_T117_data(0x10);    //Read Touch delta
     
 
-    get_T37_data(QT_REFERENCE_MODE, 0); //Read reference 
-    get_T37_data(QT_DELTA_MODE, 0); //Read Touch delta
+//    get_T37_data(QT_REFERENCE_MODE, 0); //Read reference 
+//    get_T37_data(QT_DELTA_MODE, 0); //Read Touch delta
+    
+    
+    uint8_t tmp[2];
+    TCA9546APWR_Channel_Sel(eI2C_TOUCH);
+    
+    /* Swap start address nibbles since MSB is first but touch IC wants
+    * LSB first. */
+    tmp[0] = (uint8_t) (mxt.T5_address & 0xFF);
+    tmp[1] = (uint8_t) (mxt.T5_address >> 8);
+    
+    /* Write register address */
+    HAL_StatusTypeDef Status = HAL_OK;
+    Status = HAL_I2C_Master_Transmit(&hi2c2, mxt.i2c_address<<1, tmp, 2, 100);
+    if(Status != HAL_OK)
+    {
+      printf("%s i2c write Error!!%d\r\n",__FUNCTION__,Status);  
+    }
   }
 }
 
@@ -2544,6 +2563,44 @@ void touch_ver_check_packet(uint8_t *pInBuff)
   
   UARTxSendData(pInBuff[PROTOCOL_MAIN_CMD], pInBuff[PROTOCOL_SUB_CMD], TxBuf, i);
 }
+
+void cooridnate_read(void)
+{
+  mxt_message_process_callback();
+  
+
+//  read_mem(mxt.T44_address, mxt.max_message_length, t5_msg);
+  
+  
+//  uint16_t object_address = get_object_address(MXT_SPARE_T44, 0);
+//  uint8_t object_length = get_object_size(MXT_SPARE_T44);
+//  uint8_t t44_msg[10] = {0};
+//  
+//  read_mem(object_address, object_length, t44_msg);
+//  
+//  printf("T44 addr = %X, len = %d, data = %X \r\n", object_address, object_length, t44_msg[0]);
+
+//  uint8_t t5_msg[20] = {0};
+//  if (t44_msg[0] < 255) {
+//    for(int i=0; i<t44_msg[0]; i++) {
+//      if (GPI_ReadPin(TCH_INT) == GPIO_PIN_RESET) {
+//        read_mem(mxt.T5_address, mxt.max_message_length, t5_msg);
+//        HAL_Delay(5);
+//      }
+//    }
+//  }
+  
+//  uint8_t t5_msg[20] = {0};
+//  if (GPI_ReadPin(TCH_INT) == GPIO_PIN_RESET) {
+//    read_mem(mxt.T5_address, mxt.max_message_length, t5_msg);
+//    HAL_Delay(5);
+//  }
+}
+
+
+
+
+
 
 
 

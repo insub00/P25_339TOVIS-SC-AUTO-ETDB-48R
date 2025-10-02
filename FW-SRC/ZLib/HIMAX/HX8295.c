@@ -213,6 +213,33 @@ uint16_t get_vcom_data(void)
 
 
 
+void ddi_init_code_write_packet(uint8_t *pInBuff)
+{
+  uint16_t w_len = (uint16_t)(pInBuff[5] << 8 | pInBuff[6]);
+  
+  printf("%s : w_len = %d \r\n", __func__, w_len);
+  
+  //1. eeprom load off
+  hx8295_byte_write(HX8295_DEV_ID, 0x00, 0x15); //select Page15h
+  hx8295_byte_write(HX8295_DEV_ID, 0x02, 0x66); 
+  
+  HAL_Delay(100);
+  
+  
+  //2. initial code write
+  printf("ddi init code write : \r\n");
+  for (int i=0; i<w_len; i+=2)
+  {
+    printf("I2CW %02X %02X \r\n", pInBuff[7+i], pInBuff[7+1+i]);
+    hx8295_byte_write(HX8295_DEV_ID, pInBuff[7+i], pInBuff[7+1+i]); 
+  }
+  
+  uint8_t TxBuf = 0;
+  UARTxSendData(pInBuff[PROTOCOL_MAIN_CMD], pInBuff[PROTOCOL_SUB_CMD], &TxBuf, 1);
+}
+
+
+
     
 
 

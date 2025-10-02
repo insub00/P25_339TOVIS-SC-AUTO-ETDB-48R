@@ -66,21 +66,18 @@ typedef enum {
 #define S_FLASH_READ_PACKET                     0xC3
 #define S_FLASH_SAVE_DATA_PACKET                0xC4
 #define S_EEPROM_TO_FLASH_WRITE_PACKET          0xC5
-
 #define S_EEPROM_SAVE_PACKET                    0xF0
 #define S_TOVIS_EEPROM_PACKET	                0xF3
 #define S_LED_DRIVER_FAIL_DETECT_PACKET		0xF5
-
 #define S_VLCD_CTRL_PACKET	                0xFA
 #define S_WING_INFO                             0xFF
-
 #define S_REG_READ                              0xC5
-
-
 // OTP ฐüทร
 #define S_OTP_WRITE_PACKET                      0xC6
 #define S_OTP_READ_PACKET                       0xC7
 #define S_OTP_COUNT_CHECK_PACKET                0xC8
+
+#define S_DDI_WRITE_PACKET                      0xCA
 
 
 

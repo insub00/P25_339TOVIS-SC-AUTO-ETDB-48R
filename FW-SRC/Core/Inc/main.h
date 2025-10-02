@@ -144,6 +144,7 @@ extern void User_IncTick(void);
 #define TEST_KEY_GPIO_Port GPIOD
 #define TCH_INT_Pin GPIO_PIN_14
 #define TCH_INT_GPIO_Port GPIOD
+#define TCH_INT_EXTI_IRQn EXTI15_10_IRQn
 #define T_RST_Pin GPIO_PIN_15
 #define T_RST_GPIO_Port GPIOD
 #define LED_FAIL_Pin GPIO_PIN_7
